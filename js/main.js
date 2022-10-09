@@ -38,5 +38,5 @@ const createPhotos = () => {
   return arrPhotos;
 };
 
-console.log(createPhotos());
+createPhotos();
 

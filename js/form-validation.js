@@ -6,13 +6,15 @@ const pristine = new Pristine(uploadForm, {
   errorTextClass: 'img-upload__message--loading'
 });
 
-uploadForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
+const formValidation = () => {
   const isValid = pristine.validate();
+
   if (isValid) {
     // console.log('Форма отправлена')
   }
   else {
     // console.log('Форма не отправлена')
   }
-});
+};
+
+export {pristine, formValidation};

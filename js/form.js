@@ -1,7 +1,7 @@
-import './form-validation.js';
 import { filterChange } from './filter.js';
 import { scalePicture, startScaleValues } from './scale.js';
 import { isEscapeKey } from './util.js';
+import { formValidation, pristine } from './form-validation.js';
 
 const userForm = document.querySelector('.img-upload__form');
 const overlay = userForm.querySelector('.img-upload__overlay');
@@ -13,6 +13,7 @@ const resetForm = () => {
   imgPreview.removeAttribute('class');
   imgPreview.removeAttribute('style');
   startScaleValues();
+  pristine.reset();
 };
 
 const loadForm = () => {
@@ -49,4 +50,10 @@ function onModalCloseClick() {
   closeForm();
 }
 
+function onFormSubmit(evt) {
+  evt.preventDefault();
+  formValidation();
+}
+
 uploadFile.addEventListener('change', onUploadButtonClick);
+userForm.addEventListener('submit', onFormSubmit);

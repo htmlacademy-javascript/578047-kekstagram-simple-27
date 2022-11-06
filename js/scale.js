@@ -1,3 +1,4 @@
+
 const userForm = document.querySelector('.img-upload__form');
 const imgPreview = document.querySelector('.img-upload__preview img');
 

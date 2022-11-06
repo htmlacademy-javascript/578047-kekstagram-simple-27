@@ -1,3 +1,5 @@
+import { resetSlider } from './slider.js';
+
 const imgPreview = document.querySelector('.img-upload__preview img');
 const userForm = document.querySelector('.img-upload__form');
 
@@ -10,4 +12,5 @@ const onFilterChange = (evt) => {
 
 export const filterChange = () => {
   userForm.addEventListener('click', onFilterChange);
+  resetSlider();
 };

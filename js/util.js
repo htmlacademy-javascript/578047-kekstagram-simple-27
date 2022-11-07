@@ -13,4 +13,6 @@ const getRandomInteger = (min, max) => {
 // const checkCommentaryLength = (str, maxLength) => str.length <= maxLength;
 // checkCommentaryLength();
 
-export { getRandomInteger };
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+export { getRandomInteger, isEscapeKey };

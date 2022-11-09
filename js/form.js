@@ -2,6 +2,8 @@ import { filterChange } from './filter.js';
 import { scalePicture, startScaleValues } from './scale.js';
 import { isEscapeKey } from './util.js';
 import { formValidation, pristine } from './form-validation.js';
+import './server.js';
+
 
 const userForm = document.querySelector('.img-upload__form');
 const overlay = userForm.querySelector('.img-upload__overlay');
@@ -55,5 +57,7 @@ function onFormSubmit(evt) {
   formValidation();
 }
 
+
 uploadFile.addEventListener('change', onUploadButtonClick);
+
 userForm.addEventListener('submit', onFormSubmit);

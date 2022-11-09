@@ -105,7 +105,6 @@ effectBox.addEventListener('change', (evt) => {
         imgPreview.style.filter = `${filter}(${valueElement.value}${unit})`;
       });
     }
-
   }
 });
 

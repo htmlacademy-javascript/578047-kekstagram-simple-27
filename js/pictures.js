@@ -1,13 +1,10 @@
-import { createPhotos } from './data.js';
-
 const pictureTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
 
 const picturesContainer = document.querySelector('.pictures');
-const pictures = createPhotos();
 
-const renderPictures = () => {
+export const renderPictures = (pictures) => {
   const listFragment = document.createDocumentFragment();
 
   pictures.forEach(({url, likes, comments}) => {
@@ -19,6 +16,3 @@ const renderPictures = () => {
   });
   picturesContainer.appendChild(listFragment);
 };
-
-export {renderPictures};
-

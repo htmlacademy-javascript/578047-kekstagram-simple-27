@@ -76,7 +76,7 @@ noUiSlider.create(sliderElement, {
 const resetSlider = () => {
   sliderElement.setAttribute('disabled', true);
   imgPreview.style.filter = '';
-  sliderBox.style.display = 'none';
+  sliderBox.style.display = DEFAULT_EFFECT;
 };
 
 effectBox.addEventListener('change', (evt) => {

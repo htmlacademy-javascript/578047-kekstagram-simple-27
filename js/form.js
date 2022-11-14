@@ -1,35 +1,37 @@
 import { filterChange } from './filter.js';
-import { scalePicture, startScaleValues } from './scale.js';
+import { resetScale, addScale } from './scale.js';
 import { isEscapeKey } from './util.js';
-import { formValidation, pristine } from './form-validation.js';
-import './server.js';
-
+import { pristine } from './form-validation.js';
+import { sendData } from './api.js';
+import { showErrorMessage, showSuccessMessage } from './message.js';
 
 const userForm = document.querySelector('.img-upload__form');
 const overlay = userForm.querySelector('.img-upload__overlay');
 const uploadFile = document.querySelector('#upload-file');
 const closeBtn = userForm.querySelector('.img-upload__cancel');
 const imgPreview = document.querySelector('.img-upload__preview img');
+const submitButton = document.querySelector('.img-upload__submit');
 
 const resetForm = () => {
   imgPreview.removeAttribute('class');
   imgPreview.removeAttribute('style');
-  startScaleValues();
+  userForm.reset();
   pristine.reset();
+  uploadFile.value = '';
+  resetScale();
 };
 
 const loadForm = () => {
-  uploadFile.value = '';
   overlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
-  resetForm();
-  scalePicture();
+  addScale();
   filterChange();
   document.addEventListener('keydown', onEscKeydown);
   closeBtn.addEventListener('click', onModalCloseClick);
 };
 
 const closeForm = () => {
+  resetForm();
   overlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onEscKeydown);
@@ -52,12 +54,40 @@ function onModalCloseClick() {
   closeForm();
 }
 
-function onFormSubmit(evt) {
-  evt.preventDefault();
-  formValidation();
-}
-
-
 uploadFile.addEventListener('change', onUploadButtonClick);
 
-userForm.addEventListener('submit', onFormSubmit);
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Сохраняю...';
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
+};
+
+const setUserFormSubmit = (onSuccess) => {
+  userForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    const isValid = pristine.validate();
+
+    if (isValid) {
+      blockSubmitButton();
+      sendData(
+        () => {
+          onSuccess();
+          unblockSubmitButton();
+          showSuccessMessage();
+        },
+        () => {
+          unblockSubmitButton();
+          showErrorMessage();
+        },
+        new FormData(evt.target),
+      );
+    }
+  });
+};
+
+setUserFormSubmit(closeForm);

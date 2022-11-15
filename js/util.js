@@ -1,15 +1,3 @@
-// const getRandomInteger = (min, max) => {
-//   if (typeof(min) !== 'number' || typeof(max) !== 'number' || min < 0 || max < 0){
-//     return NaN;
-//   }
-//   if (min >= max) {
-//     const temp = min;
-//     min = max;
-//     max = temp;
-//   }
-//   return Math.floor(Math.random () * (max - min + 1)) + min;
-// };
-
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const ALERT_SHOW_TIME = 5000;

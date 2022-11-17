@@ -3,7 +3,7 @@ import { resetScale, addScale } from './scale.js';
 import { isEscapeKey } from './util.js';
 import { pristine } from './form-validation.js';
 import { sendData } from './api.js';
-import { showErrorMessage, showSuccessMessage } from './message.js';
+import { showMessage } from './message.js';
 
 const userForm = document.querySelector('.img-upload__form');
 const overlay = userForm.querySelector('.img-upload__overlay');
@@ -11,6 +11,13 @@ const uploadFile = document.querySelector('#upload-file');
 const closeBtn = userForm.querySelector('.img-upload__cancel');
 const imgPreview = document.querySelector('.img-upload__preview img');
 const submitButton = document.querySelector('.img-upload__submit');
+const successMessage = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
+const errorMessage = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
+const successButton = successMessage.querySelector('.success__button');
+const errorButton = errorMessage.querySelector('.error__button');
+
+const BLOCK_MESSAGE = 'Сохраняю...';
+const UNBLOCK_MESSAGE = 'Опубликовать';
 
 const resetForm = () => {
   imgPreview.removeAttribute('class');
@@ -56,14 +63,9 @@ function onModalCloseClick() {
 
 uploadFile.addEventListener('change', onUploadButtonClick);
 
-const blockSubmitButton = () => {
-  submitButton.disabled = true;
-  submitButton.textContent = 'Сохраняю...';
-};
-
-const unblockSubmitButton = () => {
-  submitButton.disabled = false;
-  submitButton.textContent = 'Опубликовать';
+const toggleSubmitButton = (text) => {
+  submitButton.toggleAttribute('disabled');
+  submitButton.textContent = text;
 };
 
 const setUserFormSubmit = (onSuccess) => {
@@ -73,16 +75,16 @@ const setUserFormSubmit = (onSuccess) => {
     const isValid = pristine.validate();
 
     if (isValid) {
-      blockSubmitButton();
+      toggleSubmitButton(BLOCK_MESSAGE);
       sendData(
         () => {
           onSuccess();
-          unblockSubmitButton();
-          showSuccessMessage();
+          toggleSubmitButton(UNBLOCK_MESSAGE);
+          showMessage(successMessage, successButton);
         },
         () => {
-          unblockSubmitButton();
-          showErrorMessage();
+          toggleSubmitButton(UNBLOCK_MESSAGE);
+          showMessage(errorMessage, errorButton);
         },
         new FormData(evt.target),
       );
